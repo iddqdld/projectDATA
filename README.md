@@ -16,60 +16,71 @@ to update req
 
 ``` pip freeze > requirements.txt ```
 
-Instructions pour contribuer au projet
-1. Cloner le dépôt
+# Instructions pour contribuer au projet
+
+## 1. Cloner le dépôt
 Pour récupérer le projet localement :
 
-bash
-Copy
-git clone <URL_DU_DÉPÔT>  
-2. Créer une nouvelle branche
-Synchronisez-vous avec la branche main :
+```bash
+git clone <URL_DU_DÉPÔT>
+```
 
-bash
-Copy
+## 2. Créer une nouvelle branche
+Synchronisez-vous avec la branche `main` :
+
+```bash
 git checkout main  
-git pull origin main  
+git pull origin main
+```
+
 Créez une branche pour vos modifications :
 
-bash
-Copy
-git checkout -b nom-de-votre-branche  
+```bash
+git checkout -b nom-de-votre-branche
+```
+
 Exemple :
 
-bash
-Copy
-git checkout -b feature/login  
-3. Travailler et pousser les modifications
+```bash
+git checkout -b feature/login
+```
+
+## 3. Travailler et pousser les modifications
 Après vos changements, poussez la branche :
 
-bash
-Copy
-git push origin nom-de-votre-branche  
-4. Demander une revue et une fusion
-Créez une Pull Request (PR) vers main via GitHub/GitLab.
+```bash
+git push origin nom-de-votre-branche
+```
+
+## 4. Demander une revue et une fusion
+Créez une Pull Request (PR) vers `main` via GitHub/GitLab.
 
 Je vérifierai les modifications avant le merge.
 
-📜 Règles importantes
-⚠️ Interdiction de pousser directement vers main.
+---
+
+## 📜 Règles importantes
+
+⚠️ **Interdiction de pousser directement vers `main`.**
 
 Utilisez des noms de branches descriptifs :
 
-bash
-Copy
-# Bon :  
-fix/header-error  
-docs/update-readme  
-# Mauvais :  
-ma-branche  
-test123  
-Synchronisez votre branche avec main régulièrement :
+```bash
+# Bon :
+fix/header-error
+docs/update-readme
 
-bash
-Copy
-git pull origin main  
-Seul le mainteneur (moi) peut merger dans main.
+# Mauvais :
+ma-branche
+test123
+```
+
+Synchronisez votre branche avec `main` régulièrement :
+
+```bash
+git pull origin main
+```
+
+Seul le mainteneur (moi) peut merger dans `main`.
 
 Merci pour votre collaboration ! 🌟
-
