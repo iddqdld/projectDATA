@@ -120,8 +120,8 @@ def scrape_autotrader():
                 try:
                     # Извлечение данных с новыми селекторами
                     title = safe_get_text(card, 'h2[data-cmp="subheading"]')
-                    price = safe_get_text(card, 'div[data-cmp="pricing"]') 
-                    mileage = safe_get_text(card, 'div[data-cmp="mileage"]')
+                    price = safe_get_text(card, 'div[data-cmp="firstPrice"]') 
+                    mileage = safe_get_text(card, 'div[data-cmp="mileageSpecification"]')
                     year = safe_get_text(card, 'span.year')
                     link = card.find('a', {'data-cmp': 'link'})['href'] if card.find('a', {'data-cmp': 'link'}) else None
                     
