@@ -1,57 +1,72 @@
 import pandas as pd
-from db_connect import create_connection, close_connection
+from database.db_connect import create_connection, close_connection  # import des functions de conn db
+
+
 
 def get_cars_dataframe():
-    """
-    Retrieve all car data from the database and return as a pandas DataFrame
-    """
     connection = create_connection()
     if not connection:
-        print("Failed to establish database connection")
+        print("error conn db")
         return None
-    
-    try:
-        # Create cursor and execute query
-        cursor = connection.cursor(dictionary=True)
-        query = "SELECT * FROM cars"
-        cursor.execute(query)
-        
-        # Fetch all results and convert to DataFrame
-        results = cursor.fetchall()
-        df = pd.DataFrame(results)
-        
-        # Close cursor
-        cursor.close()
-        
-        print(f"Successfully imported {len(df)} records from cars table")
-        return df
-        
-    except Exception as e:
-        print(f"Error retrieving data: {e}")
-        return None
-    
-    finally:
-        close_connection(connection)
 
-# Example usage
+    try:
+        # sql query
+        cursor = connection.cursor(dictionary=True)
+        query = """
+            SELECT 
+                id,
+                title,
+                NULLIF(price, 'NULL') AS price,
+                NULLIF(mileage, 'NULL') AS mileage,
+                NULLIF(year, 'NULL') AS year,
+                link,
+                scraped_at
+            FROM cars
+        """
+        cursor.execute(query)
+        results = cursor.fetchall()
+
+        # creation de df
+        df = pd.DataFrame(results)
+
+        # types import
+        df['price'] = pd.to_numeric(df['price'], errors='coerce')
+        df['mileage'] = pd.to_numeric(df['mileage'], errors='coerce').astype('Int32')
+        df['year'] = pd.to_numeric(df['year'], errors='coerce').astype('Int16')
+        df['scraped_at'] = pd.to_datetime(df['scraped_at'])
+
+        # net
+        text_columns = ['title', 'link']
+        df[text_columns] = df[text_columns].replace(['NULL', 'N/A', ''], None)
+
+        # test
+        print(f"\nsucces import {len(df)} lines")
+        print(df.dtypes)
+
+
+        return df
+
+    except Error as e:
+        print(f"error db: {e}")
+        return None
+
+    except Exception as e:
+        print(f"error gen: {e}")
+        return None
+
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            close_connection(connection)
+
+
+# test
 if __name__ == "__main__":
     cars_df = get_cars_dataframe()
-    
+
     if cars_df is not None:
-        # Display basic information about the data
-        print("\nData Preview:")
+        print("\nresultat:")
         print(cars_df.head())
-        
-        print("\nData Summary:")
-        print(cars_df.info())
-        
-        print("\nStatistical Summary:")
-        print(cars_df.describe())
-        
-        # Example analysis
-        if 'price' in cars_df.columns:
-            print(f"\nAverage car price: {cars_df['price'].mean():.2f}")
-        
-        if 'year' in cars_df.columns:
-            print("\nCars per year:")
-            print(cars_df['year'].value_counts().sort_index())
+        cars_df.to_csv("cars.csv", sep = ",", index = False)
+    else:
+        print("error d import")

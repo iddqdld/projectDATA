@@ -5,9 +5,9 @@ def create_connection():
     try:
         connection = mysql.connector.connect(
             host="localhost",
-            user="root",  # Замените на ваше имя пользователя
-            password="",  # Замените на ваш пароль
-            database="cars_db"  # Название вашей БД
+            user="root",
+            password="",
+            database="cars_db"
         )
         
         if connection.is_connected():
